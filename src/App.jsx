@@ -3,8 +3,10 @@ import { Header } from "./components";
 
 function App() {
   return (
-    <div className="game">
+    <div className="w-screen  h-auto flex flex-col  bg-primary">
       <Header />
+
+      <main className="mt-24 p-8 w-full">mina container</main>
     </div>
   );
 }
