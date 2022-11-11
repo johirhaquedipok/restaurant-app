@@ -1,17 +1,37 @@
+import { motion } from "framer-motion";
 import React from "react";
+import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { MdShoppingBasket } from "react-icons/md";
+import { Link } from "react-router-dom";
+import { auth } from "../../firebase.config";
 import Avatar from "../assets/img/avatar.png";
 import logo from "../assets/img/logo.png";
 
 const Header = () => {
+  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+
+  if (error) {
+    return (
+      <div>
+        <p>Error: {error.message}</p>
+      </div>
+    );
+  }
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  const googleLogin = () => {
+    signInWithGoogle();
+  };
   return (
     <div className="fixed z-50 w-screen bg-slate-300 p-6 px-16">
       {/* destop & tablet */}
       <div className="hidden md:flex w-full h-full">
-        <div className="flex items-center gap-2">
+        <Link to={"/"} className="flex items-center gap-2">
           <img src={logo} alt="logo" className="w-8 object-cover" />
           <p className="text-headingColor text-xl font-bold">City</p>
-        </div>
+        </Link>
         <div className="flex items-center ml-auto gap-8">
           <ul className="flex items-center  gap-8">
             <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
@@ -35,11 +55,13 @@ const Header = () => {
             </div>
           </div>
 
-          <div>
-            <img
+          <div className="relative">
+            <motion.img
+              whileTap={{ scale: 0.6 }}
               src={Avatar}
               alt="userProfile"
               className="w-10 min-w-[40px] shadow-2xl"
+              onClick={googleLogin}
             />
           </div>
         </div>
