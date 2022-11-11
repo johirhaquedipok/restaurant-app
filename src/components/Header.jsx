@@ -3,13 +3,12 @@ import React from "react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { MdShoppingBasket } from "react-icons/md";
 import { Link } from "react-router-dom";
-import { auth } from "../../firebase.config";
+import { auth } from "../../firebase.init";
 import Avatar from "../assets/img/avatar.png";
 import logo from "../assets/img/logo.png";
 
 const Header = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
-
   if (error) {
     return (
       <div>
@@ -58,7 +57,7 @@ const Header = () => {
           <div className="relative">
             <motion.img
               whileTap={{ scale: 0.6 }}
-              src={Avatar}
+              src={user ? user.user?.photoURL : Avatar}
               alt="userProfile"
               className="w-10 min-w-[40px] shadow-2xl"
               onClick={googleLogin}
