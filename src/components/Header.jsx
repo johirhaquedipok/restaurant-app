@@ -6,9 +6,13 @@ import { Link } from "react-router-dom";
 import { auth } from "../../firebase.init";
 import Avatar from "../assets/img/avatar.png";
 import logo from "../assets/img/logo.png";
+import { actionType } from "../context/reducer";
+import { useStateValue } from "../context/state-provider";
 
 const Header = () => {
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, googleUser, loading, error] =
+    useSignInWithGoogle(auth);
+  const [{ user }, dispatch] = useStateValue();
   if (error) {
     return (
       <div>
@@ -20,8 +24,12 @@ const Header = () => {
     return <p>Loading...</p>;
   }
 
-  const googleLogin = () => {
-    signInWithGoogle();
+  const googleLogin = async () => {
+    await signInWithGoogle();
+    dispatch({
+      type: actionType.SET_USER,
+      user: googleUser?.user?.providerData[0],
+    });
   };
   return (
     <div className="fixed z-50 w-screen bg-slate-300 p-6 px-16">
@@ -57,9 +65,9 @@ const Header = () => {
           <div className="relative">
             <motion.img
               whileTap={{ scale: 0.6 }}
-              src={user ? user.user?.photoURL : Avatar}
+              src={user ? user?.photoURL : Avatar}
               alt="userProfile"
-              className="w-10 min-w-[40px] shadow-2xl"
+              className="w-10 min-w-[40px] shadow-2xl rounded-full"
               onClick={googleLogin}
             />
           </div>
