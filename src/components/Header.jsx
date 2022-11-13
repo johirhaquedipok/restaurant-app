@@ -1,6 +1,6 @@
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { motion } from "framer-motion";
 import React from "react";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { MdAdd, MdLogout, MdShoppingBasket } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase.init";
@@ -10,31 +10,22 @@ import { actionType } from "../context/reducer";
 import { useStateValue } from "../context/state-provider";
 
 const Header = () => {
-  const [signInWithGoogle, googleUser, loading, error] =
-    useSignInWithGoogle(auth);
   const [{ user }, dispatch] = useStateValue();
-  if (error) {
-    return (
-      <div>
-        <p>Error: {error.message}</p>
-      </div>
-    );
-  }
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+  const provider = new GoogleAuthProvider();
 
   const googleLogin = async () => {
     if (!user) {
-      await signInWithGoogle();
+      const {
+        user: { refreshToken, providerData },
+      } = await signInWithPopup(auth, provider);
+      console.log(providerData[0]);
       dispatch({
         type: actionType.SET_USER,
-        user: googleUser?.user?.providerData[0],
+        user: providerData[0],
       });
-      localStorage.setItem(
-        "user",
-        JSON.stringify(googleUser?.user?.providerData[0])
-      );
+      localStorage.setItem("user", JSON.stringify(providerData[0]));
+    } else {
+      return console.log("disabled for now");
     }
   };
   return (
