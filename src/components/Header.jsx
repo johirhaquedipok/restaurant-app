@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import React from "react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { MdShoppingBasket } from "react-icons/md";
+import { MdAdd, MdLogout, MdShoppingBasket } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase.init";
 import Avatar from "../assets/img/avatar.png";
@@ -25,11 +25,17 @@ const Header = () => {
   }
 
   const googleLogin = async () => {
-    await signInWithGoogle();
-    dispatch({
-      type: actionType.SET_USER,
-      user: googleUser?.user?.providerData[0],
-    });
+    if (!user) {
+      await signInWithGoogle();
+      dispatch({
+        type: actionType.SET_USER,
+        user: googleUser?.user?.providerData[0],
+      });
+      localStorage.setItem(
+        "user",
+        JSON.stringify(googleUser?.user?.providerData[0])
+      );
+    }
   };
   return (
     <div className="fixed z-50 w-screen bg-slate-300 p-6 px-16">
@@ -70,6 +76,14 @@ const Header = () => {
               className="w-10 min-w-[40px] shadow-2xl rounded-full"
               onClick={googleLogin}
             />
+            <div className="absolute w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col px-4 py-2 right-0 top-12">
+              <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover: bg-slate-200 translate-all duration-100 ease-in-out text-textColor text-base">
+                New Item <MdAdd />
+              </p>
+              <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover: bg-slate-200 translate-all duration-100 ease-in-out text-textColor text-base">
+                Log Out <MdLogout />{" "}
+              </p>
+            </div>
           </div>
         </div>
       </div>
