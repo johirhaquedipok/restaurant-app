@@ -5,7 +5,7 @@ import { CreateContiner, Header, MainContainer } from "./components";
 
 function App() {
   return (
-    <AnimatePresence>
+    <AnimatePresence exitBeforeEnter>
       <div className="w-screen  h-auto flex flex-col  bg-primary">
         <Header />
 

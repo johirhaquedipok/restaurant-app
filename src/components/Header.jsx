@@ -1,6 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { motion } from "framer-motion";
-import React from "react";
+import React, { useState } from "react";
 import { MdAdd, MdLogout, MdShoppingBasket } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase.init";
@@ -12,6 +12,7 @@ import { useStateValue } from "../context/state-provider";
 const Header = () => {
   const [{ user }, dispatch] = useStateValue();
   const provider = new GoogleAuthProvider();
+  const [isMenu, setIsMenu] = useState(false);
 
   const googleLogin = async () => {
     if (!user) {
@@ -25,7 +26,7 @@ const Header = () => {
       });
       localStorage.setItem("user", JSON.stringify(providerData[0]));
     } else {
-      return console.log("disabled for now");
+      setIsMenu(!isMenu);
     }
   };
   return (
@@ -67,14 +68,25 @@ const Header = () => {
               className="w-10 min-w-[40px] shadow-2xl rounded-full"
               onClick={googleLogin}
             />
-            <div className="absolute w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col px-4 py-2 right-0 top-12">
-              <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover: bg-slate-200 translate-all duration-100 ease-in-out text-textColor text-base">
-                New Item <MdAdd />
-              </p>
-              <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover: bg-slate-200 translate-all duration-100 ease-in-out text-textColor text-base">
-                Log Out <MdLogout />{" "}
-              </p>
-            </div>
+            {isMenu && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.6 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.6 }}
+                className="absolute w-40 bg-gray-50 shadow-xl rounded-lg flex flex-col px-4 py-2 right-0 top-12"
+              >
+                {user && (
+                  <Link to={"/createItem"}>
+                    <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover: bg-slate-100 translate-all duration-100 ease-in-out text-textColor text-base">
+                      New Item <MdAdd />
+                    </p>
+                  </Link>
+                )}
+                <p className="px-4 py-2 flex items-center gap-3 cursor-pointer hover: bg-slate-100 translate-all duration-100 ease-in-out text-textColor text-base">
+                  Log Out <MdLogout />
+                </p>
+              </motion.div>
+            )}
           </div>
         </div>
       </div>
