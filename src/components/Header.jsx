@@ -38,7 +38,12 @@ const Header = () => {
           <p className="text-headingColor text-xl font-bold">City</p>
         </Link>
         <div className="flex items-center ml-auto gap-8">
-          <ul className="flex items-center  gap-8">
+          <motion.ul
+            initial={{ opacity: 0, x: 200 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 200 }}
+            className="flex items-center  gap-8"
+          >
             <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
               Home
             </li>
@@ -51,7 +56,7 @@ const Header = () => {
             <li className="text-base text-textColor hover:text-headingColor duration-100 transition-all ease-in-out cursor-pointer">
               Service
             </li>
-          </ul>
+          </motion.ul>
 
           <div className="relative flex items-center justify-center">
             <MdShoppingBasket className="text-textColor text-2xl ml-8 cursor-pointer" />
