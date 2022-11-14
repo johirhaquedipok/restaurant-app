@@ -1,6 +1,7 @@
 import React from "react";
 import Delivery from "../assets/img/delivery.png";
 import heroBg from "../assets/img/heroBg.png";
+import { heroData } from "../utils/data";
 const MainContainer = () => {
   return (
     <section>
@@ -36,10 +37,34 @@ const MainContainer = () => {
           </div>
         </div>
 
-        <p className="p-2 bg-blue-400 flex-1"></p>
-      </div>
-      <div className="py-2 flex-1">
-        <img src={heroBg} alt="heroBg" />
+        <div className="py-2 flex-1 flex items-center relative">
+          <img
+            src={heroBg}
+            alt="heroBg"
+            className="ml-auto h-420 w-full lg:h-650 lg:w-auto"
+          />
+          <div className="w-full h-full absolute top-0 left-0 flex flex-col  items-center justify-center px-32 py-4 flex-wrap gap-2">
+            {heroData &&
+              heroData.map((item, indx) => (
+                <div
+                  key={item.descrp + indx}
+                  className="w-190 min-w-[190px] p-4 bg-cardOverlay backdrop-blur-md rounded-3xl flex flex-col justify-center items-center"
+                >
+                  <img src={item.imageSrc} alt="ig" className="w-40 -mt-20" />
+                  <p className="text-lg text-semibold text-textColor mt-4">
+                    {item.name}
+                  </p>
+                  <p className="text-sm text-lightTextGray font-semibold">
+                    {item.descrp}
+                  </p>
+                  <p className="text-sm text-lightTextGray font-semibold">
+                    <span className="text-xs text-red-600">$</span>
+                    {item.price}
+                  </p>
+                </div>
+              ))}
+          </div>
+        </div>
       </div>
     </section>
   );
