@@ -1,72 +1,43 @@
+import { motion } from "framer-motion";
 import React from "react";
-import Delivery from "../assets/img/delivery.png";
-import heroBg from "../assets/img/heroBg.png";
-import { heroData } from "../utils/data";
+import { MdChevronLeft, MdChevronRight } from "react-icons/md";
+import HomeContainer from "./home-container";
+
 const MainContainer = () => {
   return (
-    <section>
-      <div className="grid grid-cols-1 md:grid-cols-2 md: gap-2">
-        <div className="py-2 flex flex-col item-start justify-center flex-1 md:items-center">
-          <div className="flex items-center justify-center gap-2 bg-orange-100 rounded-full px-2 py-1">
-            <p className="text-base text-orange-500 font-semibold">
-              Bike Delivery
-            </p>
-            <div className="w-10 h-10 rounded-full bg-white overflow-hidden drop-shadow-xl">
-              <img
-                src={Delivery}
-                alt="delivery"
-                className="w-full h-full object-contain"
-              />
-            </div>
-          </div>
-          <div>
-            {" "}
-            <p className="text-[2.5rem] font-bold tracking-wide text-headingColor">
-              The Fastest Delivery in{" "}
-              <span className="text-orange-600 text-[3rem]">Your City</span>
-            </p>
-            <p className="text-base text-textColor text-center md:text-left">
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Libero
-              voluptatibus voluptates quod sunt amet architecto? Modi, illo
-              obcaecati at veniam qui a minima, ut totam nam aspernatur
-              quibusdam facilis cum!
-            </p>
-            <button className="bg-gradient-to-br from-orange-400 to-orange-500 w-full px-4 py-2 rounded-lg hover:shadow-lg transition-all ease-in-out duration-100 md:w-auto">
-              Order Now
-            </button>
-          </div>
-        </div>
+    <div className="w-full h-auto flex flex-col items-center justify-center ">
+      <HomeContainer />
 
-        <div className="py-2 flex-1 flex items-center relative">
-          <img
-            src={heroBg}
-            alt="heroBg"
-            className="ml-auto h-420 w-full lg:h-650 lg:w-auto"
-          />
-          <div className="w-full h-full absolute top-0 left-0 flex flex-col  items-center justify-center px-32 py-4 flex-wrap gap-2">
-            {heroData &&
-              heroData.map((item, indx) => (
-                <div
-                  key={item.descrp + indx}
-                  className="w-190 min-w-[190px] p-4 bg-cardOverlay backdrop-blur-md rounded-3xl flex flex-col justify-center items-center"
-                >
-                  <img src={item.imageSrc} alt="ig" className="w-40 -mt-20" />
-                  <p className="text-lg text-semibold text-textColor mt-4">
-                    {item.name}
-                  </p>
-                  <p className="text-sm text-lightTextGray font-semibold">
-                    {item.descrp}
-                  </p>
-                  <p className="text-sm text-lightTextGray font-semibold">
-                    <span className="text-xs text-red-600">$</span>
-                    {item.price}
-                  </p>
-                </div>
-              ))}
+      <section className="w-full my-6">
+        <div className="w-full flex items-center justify-between">
+          <p className="text-2xl font-semibold capitalize text-headingColor relative before:absolute before:rounded-lg before:content before:w-32 before:h-1 before:-bottom-2 before:left-0 before:bg-gradient-to-tr from-orange-400 to-orange-600 transition-all ease-in-out duration-100">
+            Our fresh & healthy fruits
+          </p>
+
+          <div className="hidden md:flex gap-3 items-center">
+            <motion.div
+              whileTap={{ scale: 0.75 }}
+              className="w-8 h-8 rounded-lg bg-orange-300 hover:bg-orange-500 cursor-pointer  hover:shadow-lg flex items-center justify-center"
+              //   onClick={() => setScrollValue(-200)}
+            >
+              <MdChevronLeft className="text-lg text-white" />
+            </motion.div>
+            <motion.div
+              whileTap={{ scale: 0.75 }}
+              className="w-8 h-8 rounded-lg bg-orange-300 hover:bg-orange-500 cursor-pointer transition-all duration-100 ease-in-out hover:shadow-lg flex items-center justify-center"
+              //   onClick={() => setScrollValue(200)}
+            >
+              <MdChevronRight className="text-lg text-white" />
+            </motion.div>
           </div>
         </div>
-      </div>
-    </section>
+        {/* <RowContainer
+          scrollValue={scrollValue}
+          flag={true}
+          data={foodItems?.filter((n) => n.category === "fruits")}
+        /> */}
+      </section>
+    </div>
   );
 };
 
